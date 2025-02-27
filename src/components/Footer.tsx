@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
             className="col-span-1 md:col-span-2"
           >
             <div className="flex items-center mb-4">
-              <span className="text-2xl font-semibold">MediaTrust</span>
+              <span className="text-2xl font-semibold">DeepTrust</span>
               <span className="ml-2 text-xs bg-trustaccent-700 text-trustaccent-100 px-2 py-0.5 rounded-full">Beta</span>
             </div>
             <p className="text-trustone-300 mb-6 max-w-md">
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
         
         <div className="border-t border-trustone-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-trustone-400 text-sm">
-            &copy; {new Date().getFullYear()} MediaTrust. All rights reserved.
+            &copy; {new Date().getFullYear()} DeepTrust. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             <a href="#" className="text-trustone-400 hover:text-white text-sm transition-colors">

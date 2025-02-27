@@ -36,7 +36,7 @@ const Header: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="flex items-center"
           >
-            <span className="text-trustone-900 font-semibold text-xl">MediaTrust</span>
+            <span className="text-trustone-900 font-semibold text-xl">DeepTrust</span>
             <span className="ml-2 text-xs bg-trustaccent-100 text-trustaccent-800 px-2 py-0.5 rounded-full">Beta</span>
           </motion.div>
 
