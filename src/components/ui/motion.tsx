@@ -131,7 +131,7 @@ export const motion = {
     whileTap,
     className,
     ...props 
-  }: MotionProps) => {
+  }: React.HTMLAttributes<HTMLElement> & MotionProps) => {
     let animationClass = '';
     
     // Very simple animation mapping
@@ -164,7 +164,7 @@ export const motion = {
     whileTap,
     className,
     ...props 
-  }: MotionProps) => {
+  }: React.LiHTMLAttributes<HTMLLIElement> & Omit<MotionProps, keyof React.LiHTMLAttributes<HTMLLIElement>>) => {
     let animationClass = '';
     
     // Very simple animation mapping
