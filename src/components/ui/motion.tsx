@@ -120,7 +120,7 @@ export const motion = {
     );
   },
 
-  button: ({ 
+  nav: ({ 
     children, 
     initial, 
     animate, 
@@ -132,6 +132,72 @@ export const motion = {
     className,
     ...props 
   }: MotionProps) => {
+    let animationClass = '';
+    
+    // Very simple animation mapping
+    if (initial?.opacity === 0 && animate?.opacity === 1) {
+      animationClass += ' animate-fade-in';
+    }
+    
+    return (
+      <nav 
+        className={`${className || ''} ${animationClass}`} 
+        style={{
+          animationDuration: `${transition?.duration || 0.5}s`,
+          animationDelay: `${transition?.delay || 0}s`,
+        }}
+        {...props}
+      >
+        {children}
+      </nav>
+    );
+  },
+
+  li: ({ 
+    children, 
+    initial, 
+    animate, 
+    exit, 
+    transition, 
+    variants, 
+    whileHover, 
+    whileTap,
+    className,
+    ...props 
+  }: MotionProps) => {
+    let animationClass = '';
+    
+    // Very simple animation mapping
+    if (initial?.opacity === 0 && animate?.opacity === 1) {
+      animationClass += ' animate-fade-in';
+    }
+    
+    return (
+      <li 
+        className={`${className || ''} ${animationClass}`} 
+        style={{
+          animationDuration: `${transition?.duration || 0.5}s`,
+          animationDelay: `${transition?.delay || 0}s`,
+        }}
+        {...props}
+      >
+        {children}
+      </li>
+    );
+  },
+
+  button: ({ 
+    children, 
+    initial, 
+    animate, 
+    exit, 
+    transition, 
+    variants, 
+    whileHover, 
+    whileTap,
+    className,
+    ...props 
+  }: React.ButtonHTMLAttributes<HTMLButtonElement> & MotionProps) => {
     let animationClass = '';
     
     // Very simple animation mapping
