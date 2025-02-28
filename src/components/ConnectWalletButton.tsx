@@ -1,21 +1,43 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/context/AuthContext';
 import { truncateAddress } from '@/utils/mediaUtils';
+import WalletSelectModal from './WalletSelectModal';
 
 const ConnectWalletButton: React.FC = () => {
   const { isConnected, address, connectWallet, disconnectWallet } = useAuth();
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+
+  const handleOpenWalletModal = () => {
+    setIsWalletModalOpen(true);
+  };
+
+  const handleCloseWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
+
+  const handleSelectWallet = (walletId: string) => {
+    connectWallet();
+    setIsWalletModalOpen(false);
+  };
 
   return (
     <div className="relative">
       {!isConnected ? (
-        <Button
-          onClick={connectWallet}
-          className="bg-trustaccent-500 hover:bg-trustaccent-600 text-white focus-animation transition-all duration-300"
-        >
-          Connect Wallet
-        </Button>
+        <>
+          <Button
+            onClick={handleOpenWalletModal}
+            className="bg-trustaccent-500 hover:bg-trustaccent-600 text-white focus-animation transition-all duration-300"
+          >
+            Connect Wallet
+          </Button>
+          <WalletSelectModal 
+            isOpen={isWalletModalOpen} 
+            onClose={handleCloseWalletModal} 
+            onSelectWallet={handleSelectWallet} 
+          />
+        </>
       ) : (
         <Button
           onClick={disconnectWallet}
