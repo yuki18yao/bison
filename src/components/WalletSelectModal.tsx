@@ -21,10 +21,39 @@ const walletOptions: WalletOption[] = [
   {
     id: 'metamask',
     name: 'MetaMask',
-    icon: <img src="/metamask.svg" alt="MetaMask" className="h-6 w-6" onError={(e) => {
-      e.currentTarget.onerror = null;
-      e.currentTarget.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTYuODQ1NCAyLjUyNDQxTDEzLjAwMDQgOC4yMzQ0MUwxNC40MDA0IDUuMTc0NDFMMTYuODQ1NCAyLjUyNDQxWiIgZmlsbD0iI0UxNzcyNiIgc3Ryb2tlPSIjRTE3NzI2IiBzdHJva2Utd2lkdGg9IjAuMTI1Ii8+PHBhdGggZD0iTTcuMTQ1MzYgMi41MjQ0MUw5LjU1NTM2IDUuMjE0NDFMOC4yOTUzNiA3LjEwNDQxTDEwLjkzNTQgOC4yMzQ0MUw2Ljk5NTM2IDguMjc0NDFMMy44MjUzNiA4LjA3NDQxTDcuMTQ1MzYgMi41MjQ0MVoiIGZpbGw9IiNFMjc2MjUiIHN0cm9rZT0iI0UyNzYyNSIgc3Ryb2tlLXdpZHRoPSIwLjEyNSIvPjxwYXRoIGQ9Ik0xNS42MDUzIDEzLjU4NDRMMTQuMjE1MyAxNi4zMjQ0TDE3Ljk4NTMgMTcuNDI0NEwxOS4xNTUzIDE0LjgzNDRMMTYuODQ1MyAxNi4wODQ0TDE1LjYwNTMgMTMuNTg0NFoiIGZpbGw9IiNFMjc2MjUiIHN0cm9rZT0iI0UyNzYyNSIgc3Ryb2tlLXdpZHRoPSIwLjEyNSIvPjxwYXRoIGQ9Ik0zLjgyNTI0IDE0LjgzNDRMNC45OTUyNCAxNy40MjQ0TDguNzY1MjQgMTYuMzI0NEw3LjM3NTI0IDEzLjU4NDRMNi4xMzUyNCAxNi4wODQ0TDMuODI1MjQgMTQuODM0NFoiIGZpbGw9IiNFMjc2MjUiIHN0cm9rZT0iI0UyNzYyNSIgc3Ryb2tlLXdpZHRoPSIwLjEyNSIvPjxwYXRoIGQ9Ik04LjY0NTI0IDkuOTA0NDFMMy44MjUyNCAxMS45ODQ0TDUuMDY1MjQgMTQuMzI0NEw3LjM3NTI0IDExLjgyNDRMOC42NDUyNCA5LjkwNDQxWiIgZmlsbD0iI0UyNzYyNSIgc3Ryb2tlPSIjRTI3NjI1IiBzdHJva2Utd2lkdGg9IjAuMTI1Ii8+PHBhdGggZD0iTTE1LjM0NTQgOS45MDQ0MUwxNi42MTU0IDExLjgyNDRMMTguOTI1NCAxNC4zMjQ0TDIwLjE2NTQgMTEuOTg0NEwxNS4zNDU0IDkuOTA0NDFaIiBmaWxsPSIjRTI3NjI1IiBzdHJva2U9IiNFMjc2MjUiIHN0cm9rZS13aWR0aD0iMC4xMjUiLz48cGF0aCBkPSJNOC43NjU0OCAxNi4zMjQ0TDcuMzc1NDggMTMuNTg0NEw4LjY0NTQ4IDExLjgyNDRMMTUuMzQ1NSAxMS44MjQ0TDE2LjYxNTUgMTMuNTg0NEwxNC4yMTU1IDE2LjMyNDRMOC43NjU0OCAxNi4zMjQ0WiIgZmlsbD0iI0QwQzBCMCIgc3Ryb2tlPSIjRDBDMEIwIiBzdHJva2Utd2lkdGg9IjAuMTI1Ii8+PC9zdmc+";
-    }} />,
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21.3622 3L13.0497 8.43981L14.5299 5.15143L21.3622 3Z" fill="#E17726" stroke="#E17726" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2.63782 3L10.8755 8.50181L9.47016 5.15138L2.63782 3Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M18.4159 17.3893L16.3359 20.9623L20.9995 22.297L22.2889 17.4705L18.4159 17.3893Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M1.72205 17.4705L3.00019 22.297L7.65258 20.9623L5.58494 17.3893L1.72205 17.4705Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.3825 11.3856L6.12573 13.4621L10.7264 13.6815L10.5891 8.69354L7.3825 11.3856Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16.6175 11.3855L13.359 8.63159L13.2736 13.6815L17.8743 13.4621L16.6175 11.3855Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.65259 20.9623L10.4522 19.5487L8.02974 17.5068L7.65259 20.9623Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.5479 19.5487L16.3359 20.9623L15.9704 17.5068L13.5479 19.5487Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16.3359 20.9623L13.5479 19.5487L13.7791 21.4718L13.7576 22.2159L16.3359 20.9623Z" fill="#D5BFB2" stroke="#D5BFB2" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.65259 20.9623L10.2426 22.2159L10.2318 21.4718L10.4522 19.5487L7.65259 20.9623Z" fill="#D5BFB2" stroke="#D5BFB2" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.2962 16.1068L7.96545 15.3815L9.65444 14.5564L10.2962 16.1068Z" fill="#233447" stroke="#233447" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.7038 16.1068L14.3455 14.5564L16.0454 15.3815L13.7038 16.1068Z" fill="#233447" stroke="#233447" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.65259 20.9623L8.04941 17.3893L5.58496 17.4705L7.65259 20.9623Z" fill="#CC6228" stroke="#CC6228" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M15.9506 17.3893L16.3359 20.9623L18.4159 17.4705L15.9506 17.3893Z" fill="#CC6228" stroke="#CC6228" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M17.8743 13.4621L13.2736 13.6815L13.7039 16.1068L14.3456 14.5564L16.0454 15.3815L17.8743 13.4621Z" fill="#CC6228" stroke="#CC6228" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.96545 15.3815L9.6544 14.5564L10.2962 16.1068L10.7264 13.6815L6.12573 13.4621L7.96545 15.3815Z" fill="#CC6228" stroke="#CC6228" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6.12573 13.4621L8.02972 17.5068L7.96545 15.3815L6.12573 13.4621Z" fill="#E27525" stroke="#E27525" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16.0454 15.3815L15.9704 17.5068L17.8743 13.4621L16.0454 15.3815Z" fill="#E27525" stroke="#E27525" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.7264 13.6815L10.2961 16.1068L10.8504 19.1868L10.9466 15.2627L10.7264 13.6815Z" fill="#E27525" stroke="#E27525" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.2736 13.6815L13.0642 15.2535L13.1496 19.1868L13.7039 16.1068L13.2736 13.6815Z" fill="#E27525" stroke="#E27525" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.7039 16.1068L13.1496 19.1868L13.5479 19.5487L15.9704 17.5068L16.0454 15.3815L13.7039 16.1068Z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.96545 15.3815L8.02973 17.5068L10.4522 19.5487L10.8504 19.1868L10.2962 16.1068L7.96545 15.3815Z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.7576 22.2159L13.7791 21.4718L13.5695 21.2931H10.4306L10.2318 21.4718L10.2426 22.2159L7.65259 20.9623L8.56998 21.7159L10.3974 22.9999H13.5911L15.4293 21.7159L16.3359 20.9623L13.7576 22.2159Z" fill="#C0AC9D" stroke="#C0AC9D" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.5479 19.5487L13.1496 19.1868H10.8504L10.4522 19.5487L10.2318 21.4718L10.4306 21.2931H13.5695L13.7791 21.4718L13.5479 19.5487Z" fill="#161616" stroke="#161616" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M21.754 8.36366L22.4514 5.21919L21.3622 3L13.5479 7.84547L16.6175 11.3855L20.8837 12.7867L21.8012 11.6933L21.3729 11.3856L22.0056 10.77L21.4728 10.3715L22.1055 9.85582L21.754 8.36366Z" fill="#763E1A" stroke="#763E1A" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M1.54865 5.21919L2.25681 8.36366L1.89381 9.85582L2.52722 10.3715L1.99437 10.77L2.6279 11.3856L2.19872 11.6933L3.11627 12.7867L7.3825 11.3855L10.4522 7.84547L2.63782 3L1.54865 5.21919Z" fill="#763E1A" stroke="#763E1A" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M20.8837 12.7867L16.6175 11.3855L17.8743 13.4621L15.9704 17.5068L18.4158 17.4705H22.2887L20.8837 12.7867Z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7.3825 11.3855L3.11627 12.7867L1.72205 17.4705H5.58494L8.02972 17.5068L6.12573 13.4621L7.3825 11.3855Z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.2736 13.6815L13.5479 7.84548L14.5299 5.15137H9.47014L10.4522 7.84548L10.7264 13.6815L10.8397 15.2719L10.8505 19.1868H13.1496L13.1603 15.2719L13.2736 13.6815Z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
     description: 'Connect to your MetaMask wallet'
   },
   {
