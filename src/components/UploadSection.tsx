@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { Upload, Check, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { registerMediaOnBlockchain, VerifiedMedia } from '@/utils/mediaUtils';
+import WalletSelectModal from './WalletSelectModal';
 
 const UploadSection: React.FC = () => {
   const { isConnected, address, connectWallet } = useAuth();
@@ -17,6 +18,7 @@ const UploadSection: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [verifiedMedia, setVerifiedMedia] = useState<VerifiedMedia | null>(null);
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,6 +111,19 @@ const UploadSection: React.FC = () => {
     }
   };
 
+  const handleOpenWalletModal = () => {
+    setIsWalletModalOpen(true);
+  };
+
+  const handleCloseWalletModal = () => {
+    setIsWalletModalOpen(false);
+  };
+
+  const handleSelectWallet = (walletId: string) => {
+    connectWallet();
+    setIsWalletModalOpen(false);
+  };
+
   return (
     <section id="authenticate" className="py-20 bg-trustone-50">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -137,11 +152,16 @@ const UploadSection: React.FC = () => {
                   You need to connect your wallet to authenticate content on the blockchain.
                 </p>
                 <Button 
-                  onClick={connectWallet} 
+                  onClick={handleOpenWalletModal} 
                   className="bg-trustaccent-500 hover:bg-trustaccent-600 text-white"
                 >
                   Connect Wallet
                 </Button>
+                <WalletSelectModal 
+                  isOpen={isWalletModalOpen} 
+                  onClose={handleCloseWalletModal} 
+                  onSelectWallet={handleSelectWallet} 
+                />
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
