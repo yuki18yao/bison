@@ -1,27 +1,28 @@
-
 import React from 'react';
 import { motion } from '@/components/ui/motion';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
-
 const Hero: React.FC = () => {
   const scrollToAuthenticate = () => {
     const element = document.getElementById('authenticate');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
-  return (
-    <section className="pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+  return <section className="pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-center md:text-left"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          duration: 0.7
+        }} className="text-center md:text-left">
             <span className="inline-block bg-trustaccent-100 text-trustaccent-800 text-sm px-3 py-1 rounded-full mb-4">
               Blockchain Authentication
             </span>
@@ -33,39 +34,33 @@ const Hero: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button 
-                onClick={scrollToAuthenticate}
-                className="bg-trustaccent-500 hover:bg-trustaccent-600 text-white px-8 py-6 text-lg"
-              >
+              <Button onClick={scrollToAuthenticate} className="bg-trustaccent-500 hover:bg-trustaccent-600 text-white px-8 py-6 text-lg">
                 Authenticate Content
               </Button>
-              <Button 
-                variant="outline" 
-                className="border-trustone-300 text-trustone-700 hover:bg-trustone-50 px-8 py-6 text-lg"
-                onClick={() => document.getElementById('verify')?.scrollIntoView({ behavior: 'smooth' })}
-              >
+              <Button variant="outline" className="border-trustone-300 text-trustone-700 hover:bg-trustone-50 px-8 py-6 text-lg" onClick={() => document.getElementById('verify')?.scrollIntoView({
+              behavior: 'smooth'
+            })}>
                 Verify Media
               </Button>
             </div>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          x: 20
+        }} animate={{
+          opacity: 1,
+          x: 0
+        }} transition={{
+          duration: 0.7,
+          delay: 0.2
+        }} className="relative">
             <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-medium bg-trustone-100">
-              <img 
-                src="https://picsum.photos/seed/mediaauthentication/800/450" 
-                alt="Media Authentication" 
-                className="object-cover w-full h-full rounded-2xl"
-                loading="lazy"
-              />
+              <img src="https://picsum.photos/seed/mediaauthentication/800/450" alt="Media Authentication" className="object-cover w-full h-full rounded-2xl" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black opacity-20 rounded-2xl"></div>
               <div className="absolute bottom-4 left-4 right-4 flex items-center space-x-2 bg-white bg-opacity-90 backdrop-blur-sm p-2 rounded-lg">
                 <div className="h-3 w-3 bg-trustaccent-500 rounded-full animate-bounce-subtle"></div>
-                <span className="text-sm font-medium text-trustone-900">Authenticated with blockchain</span>
+                <span className="text-sm font-medium text-trustone-900">Authenticated with DeepTrust</span>
               </div>
             </div>
 
@@ -75,24 +70,24 @@ const Hero: React.FC = () => {
           </motion.div>
         </div>
         
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="flex justify-center mt-16"
-        >
-          <Button 
-            variant="ghost" 
-            className="text-trustone-500 hover:text-trustone-700 hover:bg-transparent group"
-            onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-          >
+        <motion.div initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.5,
+        delay: 0.8
+      }} className="flex justify-center mt-16">
+          <Button variant="ghost" className="text-trustone-500 hover:text-trustone-700 hover:bg-transparent group" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({
+          behavior: 'smooth'
+        })}>
             <span className="mr-2">Learn more</span>
             <ChevronDown className="h-4 w-4 group-hover:animate-bounce-subtle" />
           </Button>
         </motion.div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
