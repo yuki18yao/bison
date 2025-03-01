@@ -1,10 +1,9 @@
-
 import React, { useState, useRef } from 'react';
 import { motion } from '@/components/ui/motion';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Search, Upload, Check, X } from 'lucide-react';
-import { verifyMedia, VerifiedMedia, formatTimestamp, truncateAddress } from '@/utils/mediaUtils';
+import { Upload, Check, X } from 'lucide-react';
+import { registerMediaOnBlockchain, VerifiedMedia, truncateAddress, formatTimestamp } from '@/utils/mediaUtils';
 
 const VerificationSection: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -12,6 +11,9 @@ const VerificationSection: React.FC = () => {
   const [verificationResult, setVerificationResult] = useState<VerifiedMedia | null>(null);
   const [verificationFailed, setVerificationFailed] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [creator, setCreator] = useState('');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -37,25 +39,20 @@ const VerificationSection: React.FC = () => {
   };
 
   const handleVerify = async () => {
-    if (!file) {
-      toast.error("Please select a file to verify");
+    if (!file || !title || !description || !creator) {
+      toast.error("Please complete all fields and select a file to verify");
       return;
     }
     
     try {
       setIsVerifying(true);
       
-      // Verify the media
-      const result = await verifyMedia(file);
+      // Register the media on blockchain
+      const result = await registerMediaOnBlockchain(file, title, description, creator);
       
-      if (result) {
-        setVerificationResult(result);
-        setVerificationFailed(false);
-        toast.success("Content successfully verified!");
-      } else {
-        setVerificationFailed(true);
-        toast.error("Content could not be verified. It may not be registered or has been modified.");
-      }
+      setVerificationResult(result);
+      setVerificationFailed(false);
+      toast.success("Content successfully verified!");
       
     } catch (error) {
       console.error("Verification failed:", error);
@@ -70,6 +67,9 @@ const VerificationSection: React.FC = () => {
     setFile(null);
     setVerificationResult(null);
     setVerificationFailed(false);
+    setTitle('');
+    setDescription('');
+    setCreator('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -87,7 +87,7 @@ const VerificationSection: React.FC = () => {
             Upload content to check if it's been authenticated and verify who created it and when.
           </p>
         </div>
-        
+
         {!verificationResult && !verificationFailed ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,6 +140,29 @@ const VerificationSection: React.FC = () => {
                 onChange={handleFileChange}
                 className="hidden"
                 accept="image/jpeg,image/png,image/gif,video/mp4"
+              />
+            </div>
+
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full p-3 border border-trustone-200 rounded-lg mb-2"
+              />
+              <textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full p-3 border border-trustone-200 rounded-lg mb-2"
+              />
+              <input
+                type="text"
+                placeholder="Creator"
+                value={creator}
+                onChange={(e) => setCreator(e.target.value)}
+                className="w-full p-3 border border-trustone-200 rounded-lg mb-2"
               />
             </div>
 

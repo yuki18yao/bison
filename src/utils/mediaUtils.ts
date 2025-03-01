@@ -1,5 +1,20 @@
-
 import { toast } from "sonner";
+import { mintNFT } from "./mintNFT";
+import { NFTContractAddress, account, client } from "./utils";
+import { uploadJSONToIPFS } from "./uploadToIpfs";
+import { createHash } from "crypto";
+
+// Utility function to truncate an address
+export const truncateAddress = (address: string) => {
+  if (!address) return '';
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+// Utility function to format timestamp
+export const formatTimestamp = (timestamp: number): string => {
+  const date = new Date(timestamp);
+  return date.toLocaleString(); // Formats it as a human-readable string based on user's locale
+};
 
 export interface VerifiedMedia {
   id: string;
@@ -13,47 +28,6 @@ export interface VerifiedMedia {
   verified: boolean;
 }
 
-// Simulate blockchain hash generation
-export const generateHash = (file: File): Promise<string> => {
-  return new Promise((resolve) => {
-    // In a real app, this would use SHA-256 or similar to create a hash
-    // For demo purposes, we'll simulate a hash
-    setTimeout(() => {
-      const fileHash = Array(64)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 16).toString(16))
-        .join("");
-      resolve(fileHash);
-    }, 1500);
-  });
-};
-
-// Simulated database of verified media
-let verifiedMediaDb: VerifiedMedia[] = [
-  {
-    id: "media-001",
-    hash: "8f7d56a1c8b9e0d2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6",
-    creator: "0x1234567890123456789012345678901234567890",
-    timestamp: Date.now() - 86400000 * 2, // 2 days ago
-    title: "Official Press Statement",
-    description: "Authenticated statement on current events",
-    mediaUrl: "https://picsum.photos/seed/picsum/800/450",
-    thumbnailUrl: "https://picsum.photos/seed/picsum/200/112",
-    verified: true,
-  },
-  {
-    id: "media-002",
-    hash: "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
-    creator: "0x0987654321098765432109876543210987654321",
-    timestamp: Date.now() - 86400000 * 5, // 5 days ago
-    title: "Product Launch Announcement",
-    description: "Verified product announcement video",
-    mediaUrl: "https://picsum.photos/seed/product/800/450",
-    thumbnailUrl: "https://picsum.photos/seed/product/200/112",
-    verified: true,
-  },
-];
-
 export const registerMediaOnBlockchain = async (
   file: File,
   title: string,
@@ -61,64 +35,66 @@ export const registerMediaOnBlockchain = async (
   creator: string
 ): Promise<VerifiedMedia> => {
   try {
-    // Generate hash for the file
-    const hash = await generateHash(file);
+    // Generate file hash
+    const fileBuffer = await file.arrayBuffer();
+    const fileHash = createHash("sha256").update(Buffer.from(fileBuffer)).digest("hex");
 
-    // In a real app, this would interact with a smart contract
-    // For demo purposes, we'll simulate the process
+    // Upload metadata to IPFS
+    const ipMetadata = {
+      title,
+      description,
+      createdAt: Date.now().toString(),
+      creators: [{ name: creator, address: account.address, contributionPercent: 100 }],
+      mediaUrl: URL.createObjectURL(file),
+      mediaHash: `0x${fileHash}`,
+      mediaType: file.type,
+    };
     
-    // Create object URL for the file to simulate media URL
-    const mediaUrl = URL.createObjectURL(file);
+    const ipIpfsHash = await uploadJSONToIPFS(ipMetadata);
+    const ipHash = createHash("sha256").update(JSON.stringify(ipMetadata)).digest("hex");
     
-    // Create a new verified media entry
-    const newMedia: VerifiedMedia = {
+    const nftMetadata = {
+      name: title,
+      description: `${description} This NFT represents ownership of the IP Asset.`,
+      media: [{ name: title, url: URL.createObjectURL(file), mimeType: file.type }],
+    };
+    
+    const nftIpfsHash = await uploadJSONToIPFS(nftMetadata);
+    const nftHash = createHash("sha256").update(JSON.stringify(nftMetadata)).digest("hex");
+    
+    // Mint NFT
+    const tokenId = await mintNFT(account.address, `https://ipfs.io/ipfs/${nftIpfsHash}`);
+    console.log(`NFT minted with tokenId ${tokenId}`);
+
+    // Register IP Asset on Story blockchain
+    const response = await client.ipAsset.register({
+      nftContract: NFTContractAddress,
+      tokenId: tokenId!,
+      ipMetadata: {
+        ipMetadataURI: `https://ipfs.io/ipfs/${ipIpfsHash}`,
+        ipMetadataHash: `0x${ipHash}`,
+        nftMetadataURI: `https://ipfs.io/ipfs/${nftIpfsHash}`,
+        nftMetadataHash: `0x${nftHash}`,
+      },
+      txOptions: { waitForTransaction: true },
+    });
+
+    console.log(`Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`);
+    console.log(`View on the explorer: https://aeneid.explorer.story.foundation/ipa/${response.ipId}`);
+
+    return {
       id: `media-${Date.now()}`,
-      hash,
+      hash: `0x${fileHash}`,
       creator,
       timestamp: Date.now(),
       title,
       description,
-      mediaUrl,
+      mediaUrl: `https://ipfs.io/ipfs/${nftIpfsHash}`,
       verified: true,
     };
-    
-    // Add to our simulated database
-    verifiedMediaDb = [...verifiedMediaDb, newMedia];
-    
-    // Simulate blockchain transaction delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    return newMedia;
   } catch (error) {
     console.error("Failed to register media:", error);
-    throw new Error("Failed to register media on blockchain");
+    toast.error("Failed to register media on blockchain.");
+    throw new Error("Blockchain registration failed");
   }
-};
-
-export const verifyMedia = async (file: File): Promise<VerifiedMedia | null> => {
-  try {
-    // Generate hash for the uploaded file
-    const hash = await generateHash(file);
-    
-    // Search our simulated database for a matching hash
-    const foundMedia = verifiedMediaDb.find(media => media.hash === hash);
-    
-    // Simulate verification delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    return foundMedia || null;
-  } catch (error) {
-    console.error("Failed to verify media:", error);
-    toast.error("Failed to verify media. Please try again.");
-    return null;
-  }
-};
-
-export const truncateAddress = (address: string): string => {
-  if (!address) return '';
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
-
-export const formatTimestamp = (timestamp: number): string => {
-  return new Date(timestamp).toLocaleString();
 };

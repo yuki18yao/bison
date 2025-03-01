@@ -9,11 +9,17 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,
     "allowJs": true,
     "noUnusedLocals": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@story-protocol/core-sdk"  // Add this line for custom types
+    ]
   }
 }
