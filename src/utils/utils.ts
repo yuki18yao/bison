@@ -1,9 +1,12 @@
 import { LicenseTerms, StoryClient, StoryConfig, WIP_TOKEN_ADDRESS } from '@story-protocol/core-sdk'
 import { http, zeroAddress, zeroHash } from 'viem'
 import { privateKeyToAccount, Address, Account } from 'viem/accounts'
-import dotenv from 'dotenv'
+// import * as dotenv from 'dotenv'
 import { LicensingConfig } from '@story-protocol/core-sdk/dist/declarations/src/types/common'
-dotenv.config()
+// dotenv.config()
+
+// Access environment variables using Vite's import.meta.env
+const RPC_PROVIDER_URL = import.meta.env.VITE_RPC_PROVIDER_URL
 
 // Add your rpc provider url to your .env file
 // You can select from one of these: https://docs.story.foundation/docs/aeneid#-rpcs
