@@ -12,7 +12,8 @@ const RPC_PROVIDER_URL = import.meta.env.VITE_RPC_PROVIDER_URL
 export const RPCProviderUrl = RPC_PROVIDER_URL
 
 // Add your private key to your .env file.
-const privateKey: Address = `0x${process.env.WALLET_PRIVATE_KEY}`
+const envPrivateKey = import.meta.env.VITE_WALLET_PRIVATE_KEY || import.meta.env.WALLET_PRIVATE_KEY
+const privateKey = envPrivateKey.startsWith('0x') ? envPrivateKey : `0x${envPrivateKey}` as `0x${string}`
 export const account: Account = privateKeyToAccount(privateKey)
 const config: StoryConfig = {
     account: account,
@@ -25,9 +26,8 @@ export const client = StoryClient.newClient(config)
 export const NonCommercialSocialRemixingTermsId = '1'
 
 // A NFT contract address that will be used to represent your IP Assets
-export const NFTContractAddress: Address = (process.env.NFT_CONTRACT_ADDRESS as Address) || '0x937bef10ba6fb941ed84b8d249abc76031429a9a'
-export const SPGNFTContractAddress: Address =
-    (process.env.SPG_NFT_CONTRACT_ADDRESS as Address) || '0xc32A8a0FF3beDDDa58393d022aF433e78739FAbc'
+export const NFTContractAddress: Address = '0x937bef10ba6fb941ed84b8d249abc76031429a9a'
+export const SPGNFTContractAddress: Address ='0xc32A8a0FF3beDDDa58393d022aF433e78739FAbc'
 
 // Docs: https://docs.story.foundation/docs/deployed-smart-contracts
 export const RoyaltyPolicyLAP: Address = '0xBe54FB168b3c982b7AaE60dB6CF75Bd8447b390E'
