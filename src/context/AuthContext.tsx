@@ -1,12 +1,15 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from "sonner";
+import { ethers } from 'ethers';
+
+type WalletType = 'metamask' | 'walletconnect';
 
 type AuthContextType = {
   isConnected: boolean;
   address: string | null;
-  connectWallet: () => Promise<void>;
+  connectWallet: (walletType: WalletType) => Promise<void>;
   disconnectWallet: () => void;
+  chainId: number | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,22 +35,64 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const connectWallet = async () => {
-    try {
-      // Simulating connection to wallet
-      // In a real app, this would interact with MetaMask or another wallet provider
-      
-      // Fake delay to simulate connection
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Generate a random address for demo purposes
-      const demoAddress = '0x' + Array(40).fill(0).map(() => 
-        Math.floor(Math.random() * 16).toString(16)
-      ).join('');
-      
-      setAddress(demoAddress);
+  const [chainId, setChainId] = useState<number | null>(null);
+
+  // Handle account changes
+  const handleAccountsChanged = (accounts: string[]) => {
+    if (accounts.length === 0) {
+      disconnectWallet();
+    } else {
+      setAddress(accounts[0]);
       setIsConnected(true);
-      localStorage.setItem('walletAddress', demoAddress);
+      localStorage.setItem('walletAddress', accounts[0]);
+    }
+  };
+
+  // Handle chain changes
+  const handleChainChanged = (chainId: string) => {
+    setChainId(parseInt(chainId));
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('chainChanged', handleChainChanged);
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+      }
+    };
+  }, []);
+
+  const connectWallet = async (walletType: WalletType) => {
+    try {
+      let provider;
+      
+      if (walletType === 'metamask') {
+        if (!window.ethereum) {
+          throw new Error('MetaMask is not installed');
+        }
+        provider = new ethers.BrowserProvider(window.ethereum);
+      } else if (walletType === 'walletconnect') {
+        // Add WalletConnect implementation here
+        throw new Error('WalletConnect implementation pending');
+      }
+
+      if (!provider) {
+        throw new Error('No provider available');
+      }
+
+      const accounts = await provider.send('eth_requestAccounts', []);
+      const network = await provider.getNetwork();
+      
+      setChainId(Number(network.chainId));
+      setAddress(accounts[0]);
+      setIsConnected(true);
+      localStorage.setItem('walletAddress', accounts[0]);
       
       toast.success("Wallet connected successfully!");
     } catch (error) {
@@ -64,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isConnected, address, connectWallet, disconnectWallet }}>
+    <AuthContext.Provider value={{ isConnected, address, connectWallet, disconnectWallet, chainId }}>
       {children}
     </AuthContext.Provider>
   );

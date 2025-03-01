@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/context/AuthContext';
 import { truncateAddress } from '@/utils/mediaUtils';
 import WalletSelectModal from './WalletSelectModal';
+import { toast } from 'sonner';
 
 const ConnectWalletButton: React.FC = () => {
   const { isConnected, address, connectWallet, disconnectWallet } = useAuth();
@@ -17,9 +17,14 @@ const ConnectWalletButton: React.FC = () => {
     setIsWalletModalOpen(false);
   };
 
-  const handleSelectWallet = (walletId: string) => {
-    connectWallet();
-    setIsWalletModalOpen(false);
+  const handleSelectWallet = async (walletId: string) => {
+    try {
+      await connectWallet(walletId as 'metamask' | 'walletconnect');
+      setIsWalletModalOpen(false);
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to connect wallet');
+    }
   };
 
   return (

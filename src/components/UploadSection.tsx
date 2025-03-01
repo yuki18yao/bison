@@ -120,7 +120,7 @@ const UploadSection: React.FC = () => {
   };
 
   const handleSelectWallet = (walletId: string) => {
-    connectWallet();
+    connectWallet(walletId as 'metamask' | 'walletconnect');
     setIsWalletModalOpen(false);
   };
 
