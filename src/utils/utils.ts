@@ -8,9 +8,8 @@ import { LicensingConfig } from '@story-protocol/core-sdk/dist/declarations/src/
 // Access environment variables using Vite's import.meta.env
 const RPC_PROVIDER_URL = import.meta.env.VITE_RPC_PROVIDER_URL
 
-// Add your rpc provider url to your .env file
-// You can select from one of these: https://docs.story.foundation/docs/aeneid#-rpcs
-export const RPCProviderUrl = process.env.RPC_PROVIDER_URL || 'https://aeneid.storyrpc.io'
+// Export the RPC provider URL from Vite's environment variables
+export const RPCProviderUrl = RPC_PROVIDER_URL
 
 // Add your private key to your .env file.
 const privateKey: Address = `0x${process.env.WALLET_PRIVATE_KEY}`

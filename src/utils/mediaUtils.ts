@@ -2,7 +2,22 @@ import { toast } from "sonner";
 import { mintNFT } from "./mintNFT";
 import { NFTContractAddress, account, client } from "./utils";
 import { uploadJSONToIPFS } from "./uploadToIpfs";
-import { createHash } from "crypto";
+// import { createHash } from "crypto";
+
+// Browser-compatible hashing functions
+async function calculateHash(file: File): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function calculateStringHash(str: string): Promise<string> {
+  const buffer = new TextEncoder().encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 // Utility function to truncate an address
 export const truncateAddress = (address: string) => {
@@ -36,8 +51,7 @@ export const registerMediaOnBlockchain = async (
 ): Promise<VerifiedMedia> => {
   try {
     // Generate file hash
-    const fileBuffer = await file.arrayBuffer();
-    const fileHash = createHash("sha256").update(Buffer.from(fileBuffer)).digest("hex");
+    const fileHash = await calculateHash(file);
 
     // Upload metadata to IPFS
     const ipMetadata = {
@@ -51,7 +65,7 @@ export const registerMediaOnBlockchain = async (
     };
     
     const ipIpfsHash = await uploadJSONToIPFS(ipMetadata);
-    const ipHash = createHash("sha256").update(JSON.stringify(ipMetadata)).digest("hex");
+    const ipHash = await calculateStringHash(JSON.stringify(ipMetadata));
     
     const nftMetadata = {
       name: title,
@@ -60,7 +74,7 @@ export const registerMediaOnBlockchain = async (
     };
     
     const nftIpfsHash = await uploadJSONToIPFS(nftMetadata);
-    const nftHash = createHash("sha256").update(JSON.stringify(nftMetadata)).digest("hex");
+    const nftHash = await calculateStringHash(JSON.stringify(nftMetadata));
     
     // Mint NFT
     const tokenId = await mintNFT(account.address, `https://ipfs.io/ipfs/${nftIpfsHash}`);
