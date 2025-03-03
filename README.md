@@ -3,12 +3,12 @@
 ## Project info
 This web application leverages blockchain technology to authenticate and verify digital content, ensuring that only the original creator can claim ownership.
 
+Click below to check the demo video.
+
+[![DeepTrust Demo Video](public\deeptrust.png)](https://www.youtube.com/watch?v=w8QZ7aCChQk)
+
+
 ## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use your preferred IDE**
-
 If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
@@ -30,13 +30,13 @@ VITE_WALLET_PRIVATE_KEY=
 VITE_PINATA_JWT=
 VITE_RPC_PROVIDER_URL=
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
 ## What technologies are used for this project?
 
-This project is built with .
+This project is built with
 
 - Vite
 - TypeScript
