@@ -3,10 +3,7 @@
 ## Project info
 This web application leverages blockchain technology to authenticate and verify digital content, ensuring that only the original creator can claim ownership.
 
-Click below to check the demo video.
-
-[![DeepTrust Demo Video](public\deeptrust.png)](https://www.youtube.com/watch?v=w8QZ7aCChQk)
-
+Click [![here]](https://www.youtube.com/watch?v=w8QZ7aCChQk) to check the demo video.
 
 ## How can I edit this code?
 If you want to work locally using your own IDE, you can clone this repo and push changes.
